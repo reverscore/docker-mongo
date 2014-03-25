@@ -25,7 +25,6 @@ RUN mkdir -p /data/db
 
 # Expose the default port
 EXPOSE 27017
-EXPOSE 28017
 
 # Default port to execute the entrypoint (MongoDB)
 CMD ["--port 27017"]
