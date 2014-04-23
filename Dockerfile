@@ -1,5 +1,8 @@
 FROM ubuntu:12.04
 MAINTAINER Luis Elizondo, lelizondo@gmail.com
+
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update
 
 ################## BEGIN INSTALLATION ######################
