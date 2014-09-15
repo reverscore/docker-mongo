@@ -31,5 +31,5 @@ EXPOSE 27017
 EXPOSE 28017
 
 # Execute the command
-CMD ["/usr/bin/mongod", "--port 27017"]
+CMD ["/usr/bin/mongod"]
 
