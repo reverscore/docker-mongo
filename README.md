@@ -1,13 +1,9 @@
 MongoDB on Docker, exposes two ports
 
-Run with
-	
-	docker run -itd -p 27017 --name mongodb rever/mongo
+Based on the official mongodb image
 
-Find out which ports docker created
-	
-	docker ps
+The reason for this image is to modify the mongodb.conf and add the following:
 
-Use mongo
-	
-	mongo --port someport
+```
+setParameter=textSearchEnabled=true
+```
