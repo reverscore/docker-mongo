@@ -1,4 +1,4 @@
-FROM mongo:4.2-xenial
+FROM mongo:4.2-bionic
 
 ENV DEBIAN_FRONTEND noninteractive
 
