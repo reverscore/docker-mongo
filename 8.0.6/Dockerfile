@@ -1,12 +1,21 @@
-FROM mongo:8.0-noble
+FROM mongo:8.0.6-noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV GLIBC_TUNABLES=glibc.pthread.rseq=0
+ENV LD_PRELOAD=/usr/local/lib/libno_rseq.so
 
 COPY mongodb.conf /etc/mongo/mongodb.conf
+COPY no_rseq.c /tmp/no_rseq.c
 
-# Raise nofile ulimit to prevent "Too many open files" under heavy load
-RUN sed -i '1a ulimit -n 65536 2>/dev/null || true' /usr/local/bin/docker-entrypoint.sh
+# Build rseq-blocking library and raise ulimit
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gcc libc6-dev; \
+    gcc -shared -fPIC -o /usr/local/lib/libno_rseq.so /tmp/no_rseq.c -ldl; \
+    rm /tmp/no_rseq.c; \
+    apt-get purge -y --auto-remove gcc; \
+    rm -rf /var/lib/apt/lists/*; \
+    sed -i '1a ulimit -n 65536 2>/dev/null || true' /usr/local/bin/docker-entrypoint.sh
 
 # Expose the default port
 EXPOSE 27017
